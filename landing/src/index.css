@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-meadow: #6b8e23;
+  --color-cream-earth: #f5f1e8;
+  --color-wood: #6b4f3a;
+  --color-ivory: #ffffff;
+  --color-wheat: #d9c46a;
+
+  --font-display: 'Lora', Georgia, ui-serif, serif;
+  --font-sans: 'Nunito Sans', 'Segoe UI', system-ui, sans-serif;
+
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-cream-earth text-wood m-0 min-h-svh font-sans antialiased overflow-x-hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  img {
+    @apply max-h-full max-w-full;
+  }
+}
+
+/* Tekstur kayu halus pada area tertentu */
+@layer utilities {
+  .bg-woodgrain {
+    background-color: var(--color-cream-earth);
+    background-image:
+      repeating-linear-gradient(
+        88deg,
+        transparent,
+        transparent 3px,
+        rgba(107, 79, 58, 0.035) 3px,
+        rgba(107, 79, 58, 0.035) 4px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 72px,
+        rgba(107, 142, 35, 0.04) 72px,
+        rgba(107, 142, 35, 0.04) 73px
+      );
+  }
+
+  .nav-link-rustic {
+    @apply relative transition-colors duration-200;
+  }
+
+  .nav-link-rustic::after {
+    content: '';
+    @apply bg-meadow absolute bottom-[-4px] left-0 h-0.5 w-full origin-left scale-x-0 rounded-full opacity-85 transition-transform duration-200 ease-out;
+  }
+
+  .nav-link-rustic:hover::after,
+  .nav-link-rustic[data-active='true']::after {
+    @apply scale-x-100;
+  }
+}

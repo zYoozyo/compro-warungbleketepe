@@ -1,0 +1,20 @@
+# Vite / npm (landing)
+landing/node_modules
+landing/dist
+landing/.vite
+landing/*.tsbuildinfo
+landing/.turbo
+
+# Logs & env
+*.log
+npm-debug.log*
+.env
+.env.*
+*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea
+.vscode/*
+!.vscode/extensions.json

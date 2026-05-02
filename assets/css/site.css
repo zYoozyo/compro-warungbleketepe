@@ -1,0 +1,332 @@
+html { scroll-behavior: smooth; }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f3f0d8;
+  color: #2f2418;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.page-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.55), rgba(255,255,255,0) 22%),
+    linear-gradient(180deg, #f6f3e7 0%, #f3f0d8 16%, #f3f0d8 100%);
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 180ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.hero-rounded {
+  border-bottom-right-radius: 2.4rem;
+}
+
+.story-card::before,
+.map-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.08));
+  pointer-events: none;
+}
+
+.menu-slide,
+.story-slide {
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.footer-grid > * + * {
+  border-left: 1px solid #e6dec7;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 1023px) {
+  header .mx-auto.max-w-6xl,
+  main.mx-auto.max-w-6xl,
+  footer.mx-auto.max-w-6xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero-rounded {
+    border-bottom-right-radius: 2rem;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .page-shell {
+    background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.45), rgba(255,255,255,0) 18%),
+      linear-gradient(180deg, #f6f3e7 0%, #f3f0d8 18%, #f3f0d8 100%);
+  }
+
+  /* Header */
+  header .mx-auto.max-w-6xl {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    gap: 0.75rem;
+  }
+
+  header .mx-auto.max-w-6xl > a {
+    gap: 0.75rem;
+    min-width: 0;
+    max-width: calc(100% - 3.5rem);
+  }
+
+  header .mx-auto.max-w-6xl > a img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    flex-shrink: 0;
+  }
+
+  header .mx-auto.max-w-6xl > a span {
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  #mobile-nav {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  #mobile-nav .nav-link {
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  /* Main spacing */
+  main.mx-auto.max-w-6xl {
+    padding-top: 1.1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  main section.rounded-\[32px\],
+  main section.rounded-\[28px\] {
+    border-radius: 1.5rem !important;
+  }
+
+  /* Hero image home */
+  .hero-rounded {
+    border-bottom-right-radius: 1.5rem;
+  }
+
+  /* Global heading balance */
+  h1 {
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* Home */
+  main section img[alt="Interior Warung Bleketepe"] {
+    height: 14rem !important;
+  }
+
+  main article.relative.mt-6 img[alt="Wood-fired cooking"] {
+    height: 15.5rem !important;
+  }
+
+  aside.space-y-4 > div,
+  aside.space-y-4 > article {
+    border-radius: 1.35rem !important;
+  }
+
+  aside.space-y-4 h2,
+  aside.space-y-4 .font-serif {
+    line-height: 1.1 !important;
+  }
+
+  aside.space-y-4 > div p,
+  aside.space-y-4 > article p {
+    max-width: none !important;
+  }
+
+  /* Menu: poster full width, arrows rapi di bawah */
+  main .mt-10.grid.items-center.gap-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  main .mt-10.grid.items-center.gap-4 > .order-1 {
+    grid-column: 1 / -1;
+  }
+
+  main .mt-10.grid.items-center.gap-4 > .order-2 {
+    justify-self: end;
+  }
+
+  main .mt-10.grid.items-center.gap-4 > .order-3 {
+    justify-self: start;
+  }
+
+  #menu-title {
+    font-size: 2.1rem !important;
+    line-height: 1.02 !important;
+  }
+
+  #menu-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.75 !important;
+  }
+
+  #menu-prev,
+  #menu-next,
+  #story-prev,
+  #story-next {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  #menu-prev span,
+  #menu-next span,
+  #story-prev span,
+  #story-next span {
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+
+  #menu-dots,
+  #story-dots {
+    margin-top: 0.9rem;
+  }
+
+  /* Story */
+  .story-slide {
+    will-change: opacity;
+  }
+
+  #story-dots + div {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    margin-top: 1rem;
+    display: inline-block;
+  }
+
+  /* Contact */
+  .map-card img {
+    height: 15rem !important;
+  }
+
+  /* Footer */
+  .footer-grid {
+    gap: 0 !important;
+  }
+
+  .footer-grid > * + * {
+    border-left: 0;
+    border-top: 1px solid #e6dec7;
+  }
+
+  .footer-grid > div {
+    padding: 1rem 1.1rem !important;
+  }
+
+  .footer-grid img {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 639px) {
+  header .mx-auto.max-w-6xl > a img {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  header .mx-auto.max-w-6xl > a span {
+    font-size: 0.95rem;
+  }
+
+  main section .mx-auto.max-w-2xl.text-center h1,
+  main section .mx-auto.max-w-3xl.text-center h1 {
+    font-size: 2.15rem !important;
+    line-height: 1.02 !important;
+  }
+
+  main section .mx-auto.max-w-3xl.text-center h2 {
+    font-size: 2rem !important;
+    line-height: 1.05 !important;
+  }
+
+  main section .max-w-\[32rem\] h1 {
+    font-size: 2.2rem !important;
+    line-height: 0.98 !important;
+  }
+
+  main section .max-w-\[32rem\] p,
+  main section .max-w-\[44rem\] p,
+  #menu-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.8 !important;
+  }
+
+  aside.space-y-4 > div,
+  aside.space-y-4 > article,
+  .footer-grid > div,
+  .map-card,
+  main section.rounded-\[32px\] {
+    border-radius: 1.25rem !important;
+  }
+
+  main article .absolute.bottom-5.left-5.right-5 p.font-serif,
+  main article .absolute.inset-x-0.bottom-0 p.font-serif {
+    font-size: 1.45rem !important;
+    line-height: 1.05 !important;
+  }
+
+  main article .absolute.bottom-5.left-5.right-5 p:not(.font-serif),
+  main article .absolute.inset-x-0.bottom-0 p:not(.font-serif) {
+    font-size: 0.8rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .footer-grid p {
+    word-break: break-word;
+  }
+}
