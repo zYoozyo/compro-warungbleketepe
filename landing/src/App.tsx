@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { Header } from './components/Header'
 import { Reveal } from './components/Reveal'
 import { DecorRice } from './components/DecorRice'
@@ -79,12 +79,26 @@ export default function App() {
   const [menuIndex, setMenuIndex] = useState(0)
   const menuCarouselRef = useRef<HTMLDivElement>(null)
   const menuInstructionsId = useId()
+  const touchStartX = useRef<number | null>(null)
 
   const goMenu = useCallback((delta: number) => {
     setMenuIndex((i) => (i + delta + MENU_CATEGORIES.length) % MENU_CATEGORIES.length)
   }, [])
 
   const slide = MENU_CATEGORIES[menuIndex]
+
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return
+    const diff = touchStartX.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 40) {
+      goMenu(diff > 0 ? 1 : -1)
+    }
+    touchStartX.current = null
+  }, [goMenu])
 
   useEffect(() => {
     const el = menuCarouselRef.current
@@ -143,7 +157,7 @@ export default function App() {
                 </p>
                 <h1
                   id="hero-title"
-                  className="font-display mt-5 text-[1.55rem] font-semibold leading-[1.2] tracking-tight text-ivory sm:text-[2.05rem] md:text-[2.65rem]"
+                  className="font-display mt-5 text-[2rem] font-semibold leading-[1.18] tracking-tight text-ivory sm:text-[2.65rem] md:text-[3.4rem]"
                 >
                   Warung Bleketepe Tempat Makan Santai dengan Suasana Persawahan
                 </h1>
@@ -158,7 +172,7 @@ export default function App() {
               <Reveal className="mt-11 flex w-full max-w-md flex-col gap-4 sm:max-w-lg sm:flex-row sm:justify-center" delayMs={140}>
                 <a
                   href="#menu"
-                  className="hover:bg-wheat bg-meadow text-wood hover:text-wood/95 inline-flex min-h-[3.1rem] items-center justify-center rounded-2xl px-10 text-[15px] font-bold shadow-[0_6px_20px_rgba(0,0,0,0.2)] transition-[transform,background-color,color,box-shadow] hover:-translate-y-0.5 active:translate-y-0"
+                  className="bg-meadow hover:bg-meadow/90 inline-flex min-h-[3.1rem] items-center justify-center rounded-2xl px-10 text-[15px] font-bold text-white shadow-[0_6px_20px_rgba(0,0,0,0.2)] transition-[transform,background-color,box-shadow] hover:-translate-y-0.5 active:translate-y-0"
                 >
                   Lihat Menu
                 </a>
@@ -197,6 +211,8 @@ export default function App() {
                     aria-roledescription="carousel"
                     aria-label="Brosur menu Warung Bleketepe"
                     aria-describedby={menuInstructionsId}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
                   >
                     <p id={menuInstructionsId} className="sr-only">
                       Gunakan panah kiri dan kanan, atau tombol lingkaran di bawah brosur untuk memilih kategori menu.
@@ -205,7 +221,7 @@ export default function App() {
                     <div className="flex min-h-[min(72svh,520px)] items-center gap-3 sm:min-h-[min(76svh,600px)] sm:gap-4 md:min-h-[min(80svh,760px)]">
                       <button
                         type="button"
-                        className="text-wood/85 hover:bg-wood/6 focus-visible:ring-meadow shrink-0 self-center rounded-full border border-transparent bg-transparent p-2 text-3xl leading-none transition-colors hover:text-wood focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-3 sm:text-4xl md:text-[2.65rem]"
+                        className="focus-visible:ring-meadow shrink-0 self-center rounded-full border border-wood/20 bg-ivory/80 p-2.5 text-[2rem] leading-none text-wood shadow-[0_2px_8px_rgba(0,0,0,0.12)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-ivory hover:shadow-[0_4px_14px_rgba(0,0,0,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-3 sm:text-[2.5rem] md:p-3.5 md:text-[3rem]"
                         aria-label="Brosur sebelumnya"
                         onClick={() => goMenu(-1)}
                       >
@@ -248,7 +264,7 @@ export default function App() {
 
                       <button
                         type="button"
-                        className="text-wood/85 hover:bg-wood/6 focus-visible:ring-meadow shrink-0 self-center rounded-full border border-transparent bg-transparent p-2 text-3xl leading-none transition-colors hover:text-wood focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-3 sm:text-4xl md:text-[2.65rem]"
+                        className="focus-visible:ring-meadow shrink-0 self-center rounded-full border border-wood/20 bg-ivory/80 p-2.5 text-[2rem] leading-none text-wood shadow-[0_2px_8px_rgba(0,0,0,0.12)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-ivory hover:shadow-[0_4px_14px_rgba(0,0,0,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-3 sm:text-[2.5rem] md:p-3.5 md:text-[3rem]"
                         aria-label="Brosur berikutnya"
                         onClick={() => goMenu(1)}
                       >
@@ -363,7 +379,7 @@ export default function App() {
                           href="https://wa.me/6282264557876"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-meadow hover:bg-meadow/93 text-wood mt-4 inline-flex min-h-[2.95rem] items-center justify-center rounded-xl px-6 text-[14px] font-bold shadow-[0_4px_12px_rgba(107,142,35,0.35)] transition-[transform,color,background-color] hover:-translate-y-0.5"
+                          className="bg-meadow hover:bg-meadow/90 mt-4 inline-flex min-h-[2.95rem] items-center justify-center rounded-xl px-6 text-[14px] font-bold text-white shadow-[0_4px_12px_rgba(107,142,35,0.35)] transition-[transform,background-color] hover:-translate-y-0.5"
                         >
                           Buka WhatsApp
                         </a>
@@ -372,14 +388,33 @@ export default function App() {
                       <div className="border-meadow/25 rounded-2xl border border-l-4 border-l-meadow bg-cream-earth p-6 md:p-7">
                         <h3 className="font-display text-wood mb-3 text-xl font-semibold">Jam buka</h3>
                         <ul className="text-wood/88 space-y-2 font-sans text-[14px] leading-relaxed md:text-[15px]">
-                          <li>
-                            <span className="text-meadow font-bold">10.00 – 24.00</span> WIB (area warung utama)
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Sabtu</span>
+                            <span className="text-meadow font-bold tabular-nums">10.00 – 00.00</span>
                           </li>
-                          <li>
-                            <strong className="text-wood">Close order hidangan utama</strong> pukul <strong className="text-wheat font-bold">22.00</strong> WIB
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Minggu</span>
+                            <span className="text-meadow font-bold tabular-nums">10.00 – 23.00</span>
                           </li>
-                          <li>
-                            Area <strong className="text-wood">kedai kopi</strong> santai sampai <strong className="text-wheat font-bold">23.00</strong> WIB
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Senin</span>
+                            <span className="text-meadow font-bold tabular-nums">10.00 – 23.00</span>
+                          </li>
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Selasa</span>
+                            <span className="text-meadow font-bold tabular-nums">10.00 – 23.00</span>
+                          </li>
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Rabu</span>
+                            <span className="text-meadow font-bold tabular-nums">10.00 – 23.00</span>
+                          </li>
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Kamis</span>
+                            <span className="text-meadow font-bold tabular-nums">10.00 – 23.00</span>
+                          </li>
+                          <li className="flex justify-between gap-4">
+                            <span className="font-medium">Jumat</span>
+                            <span className="text-meadow font-bold tabular-nums">13.00 – 23.00</span>
                           </li>
                         </ul>
                       </div>
